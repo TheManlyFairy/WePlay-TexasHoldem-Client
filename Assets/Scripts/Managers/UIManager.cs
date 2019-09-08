@@ -147,6 +147,7 @@ public class UIManager : MonoBehaviour
     #region Buttons
     public void Call()
     {
+        
         PhotonGameManager.CurrentPlayer.Call();
         betValueSlider.value = 0;
         UpdatePlayerDisplay();
