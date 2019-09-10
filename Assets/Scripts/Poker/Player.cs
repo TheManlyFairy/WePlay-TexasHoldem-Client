@@ -198,39 +198,44 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
     public void OnEvent(EventData photonEvent)
     {
         byte eventCode = photonEvent.Code;
-
-        switch (eventCode)
+        if (photonView.IsMine)
         {
-            case (byte)EventCodes.PlayerCards:
-                {
-                    object[] data = (object[])photonEvent.CustomData;
-                    Debug.Log("ViewId from DEALER SERVER: " + (int)data[0]);
-                    if(photonView.ViewID == (int)data[0])
-                    CreateLocalPlayerCard(data);
-                }
-                break;
 
-            case (byte)EventCodes.PlayerBet:
-                {
-                    object[] data = (object[])photonEvent.CustomData;
-                    if (photonView.IsMine)
-                    {
-                        money += (int)data[0];
-                        UIManager.instance.UpdatePlayerDisplay();
-                    }
-                }
-                break;
 
-            case (byte)EventCodes.PlayerTurn:
-                {
-                    if(photonView.IsMine)
+            switch (eventCode)
+            {
+                case (byte)EventCodes.PlayerCards:
                     {
                         object[] data = (object[])photonEvent.CustomData;
-                        UIManager.instance.callBet.gameObject.SetActive((bool)data[0]);
+                        Debug.Log("ViewId from DEALER SERVER: " + (int)data[0]);
+                        if (photonView.ViewID == (int)data[0])
+                            CreateLocalPlayerCard(data);
                     }
-                }
-                break;
+                    break;
 
+                case (byte)EventCodes.PlayerBet:
+                    {
+                        object[] data = (object[])photonEvent.CustomData;
+                        if (photonView.IsMine)
+                        {
+                            money += (int)data[0];
+                            UIManager.instance.UpdatePlayerDisplay();
+                        }
+                    }
+                    break;
+
+                case (byte)EventCodes.PlayerTurn:
+                    {
+                        if (photonView.IsMine)
+                        {
+                            object[] data = (object[])photonEvent.CustomData;
+                            UIManager.instance.callBet.gameObject.SetActive((bool)data[0]);
+                            UIManager.instance.UpdatePlayerDisplay();
+                        }
+                    }
+                    break;
+
+            }
         }
 
         //if (eventCode == (byte)EventCodes.PlayerCards && photonView.IsMine)

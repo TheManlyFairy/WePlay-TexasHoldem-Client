@@ -6,12 +6,12 @@ public class UIManager : MonoBehaviour
 {
     public Text playerName;
     public PlayerHandDisplay playerHandDisplay;
-    public CommunityHandDisplay communityHandDisplay;
+   // public CommunityHandDisplay communityHandDisplay;
     public Text playerMoney;
     public Text playerCurrentBet;
    // public Text currentPot;
     public Slider betValueSlider;
-    public InputField betValueField;
+   // public InputField betValueField;
     public Button raiseBet;
     public Button callBet;
     public Button check;
@@ -127,7 +127,7 @@ public class UIManager : MonoBehaviour
         int sliderMinimum = Dealer.MinimumBet;
         int sliderMaximum = PhotonGameManager.CurrentPlayer.money;
         int betValue = (int)(betValueSlider.value * sliderMaximum);
-        betValueField.text = betValue + " $";
+        playerCurrentBet.text = betValue + " $";
 
 
         if (betValue >= Dealer.MinimumBet)
@@ -147,26 +147,31 @@ public class UIManager : MonoBehaviour
     #region Buttons
     public void Call()
     {
+        
         PhotonGameManager.CurrentPlayer.Call();
         betValueSlider.value = 0;
+        UpdatePlayerDisplay();
     }
 
     public void Raise()
     {
         PhotonGameManager.CurrentPlayer.Raise();
         betValueSlider.value = 0;
+        UpdatePlayerDisplay();
     }
 
     public void Check()
     {
         PhotonGameManager.CurrentPlayer.Check();
         betValueSlider.value = 0;
+        UpdatePlayerDisplay();
     }
 
     public void Fold()
     {
         PhotonGameManager.CurrentPlayer.Fold();
         betValueSlider.value = 0;
+        UpdatePlayerDisplay();
     }
     #endregion
 

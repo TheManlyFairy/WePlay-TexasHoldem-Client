@@ -9,12 +9,12 @@ public class GameSetupController : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject playerPrefab;
     [SerializeField] GameObject playerButtonPrefab;
-    [SerializeField] Transform playerButtonsContainer;
-    [SerializeField] Text roomName;
+   // [SerializeField] Transform playerButtonsContainer;
+   // [SerializeField] Text roomName;
    
     void Start()
     {
-        roomName.text = PhotonNetwork.CurrentRoom.Name;
+       // roomName.text = PhotonNetwork.CurrentRoom.Name;
         CreatePlayer();
         PhotonGameManager.instance.FindPlayers();
         //CreatePlayerButton();
@@ -27,7 +27,7 @@ public class GameSetupController : MonoBehaviourPunCallbacks
     {
         
         Debug.Log("Creating Player");
-        PhotonNetwork.Instantiate(playerPrefab.name, playerButtonsContainer.position, Quaternion.identity);
+        PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
 
 
     }
