@@ -6,12 +6,12 @@ public class UIManager : MonoBehaviour
 {
     public Text playerName;
     public PlayerHandDisplay playerHandDisplay;
-   // public CommunityHandDisplay communityHandDisplay;
+    // public CommunityHandDisplay communityHandDisplay;
     public Text playerMoney;
     public Text playerCurrentBet;
-   // public Text currentPot;
+    // public Text currentPot;
     public Slider betValueSlider;
-   // public InputField betValueField;
+    // public InputField betValueField;
     public Button raiseBet;
     public Button callBet;
     public Button check;
@@ -19,20 +19,11 @@ public class UIManager : MonoBehaviour
 
     public static UIManager instance;
 
-
     private void Start()
     {
         instance = this;
         betValueSlider.onValueChanged.AddListener(delegate { UpdateBet(); });
     }
-
-    //void Update()
-    //{
-    //    if(betValueSlider.value != )
-    //    {
-    //        UpdateBet();
-    //    }
-    //}
 
     public static void StartGame()
     {
@@ -40,60 +31,13 @@ public class UIManager : MonoBehaviour
         PhotonGameManager.OnDealingCards += instance.UpdatePlayerDisplay;
 
     }
-    /*
-    void SetupUIListeners()
-    {
-        PhotonGameManager.OnDealingCards += UpdatePlayerDisplay;
-        Dealer.OnInterfaceUpdate += UpdateGameInterface;
-        Dealer.OnInterfaceUpdate += UpdatePlayerDisplay;
-        betValueSlider.onValueChanged.AddListener(delegate
-        {
-            int sliderMinimum = Dealer.MinimumBet;
-            int sliderMaximum = PhotonGameManager.CurrentPlayer.money;
-            int betValue = (int)(betValueSlider.value * sliderMaximum);
-            Debug.Log("Player's Bet: " + betValue);
 
-            if (betValue >= Dealer.MinimumBet)
-            {
-                while (betValue % Dealer.MinimumBet != 0)
-                    betValue--;
-            }
-            else
-            {
-                betValue = Dealer.MinimumBet;
-            }
-            PhotonGameManager.CurrentPlayer.AmountToBet = betValue;
-            betValueField.text = "" + betValue;
-        });
-        raiseBet.onClick.AddListener(delegate
-        {
-            PhotonGameManager.CurrentPlayer.Raise();
-            betValueSlider.value = 0;
-        });
-        callBet.onClick.AddListener(delegate
-        {
-            PhotonGameManager.CurrentPlayer.Call();
-            betValueSlider.value = 0;
-        });
-        check.onClick.AddListener(delegate
-        {
-            PhotonGameManager.CurrentPlayer.Check();
-            betValueSlider.value = 0;
-        });
-        fold.onClick.AddListener(delegate
-        {
-            PhotonGameManager.CurrentPlayer.Fold();
-            betValueSlider.value = 0;
-        });
-        PhotonGameManager.OnDealingCards += UpdatePlayerDisplay;
-    }
-    */
     void UpdateGameInterface()
     {
         playerMoney.text = "Cash: " + PhotonGameManager.CurrentPlayer.money;
-      //  currentPot.text = "Total Cash Prize: " + Dealer.Pot;
+        //  currentPot.text = "Total Cash Prize: " + Dealer.Pot;
     }
-  public  void UpdatePlayerDisplay()
+    public void UpdatePlayerDisplay()
     {
         playerHandDisplay.SetupPlayerHand(PhotonGameManager.CurrentPlayer);
         playerName.text = PhotonGameManager.CurrentPlayer.name;
@@ -115,7 +59,7 @@ public class UIManager : MonoBehaviour
     public void DebugShowPlayer(int index)
     {
         playerMoney.text = "Cash: " + PhotonGameManager.players[index].money;
-       // currentPot.text = "Total Cash Prize: " + Dealer.Pot;
+        // currentPot.text = "Total Cash Prize: " + Dealer.Pot;
         playerHandDisplay.SetupPlayerHand(PhotonGameManager.players[index]);
         playerName.text = PhotonGameManager.players[index].name;
         playerHandDisplay.SetupPlayerHand(PhotonGameManager.players[index]);
@@ -140,40 +84,93 @@ public class UIManager : MonoBehaviour
             betValue = Dealer.MinimumBet;
         }
         PhotonGameManager.CurrentPlayer.AmountToBet = betValue;
-       // betValueField.text = "" + betValue;
+        // betValueField.text = "" + betValue;
     }
-
 
     #region Buttons
-    public void Call()
+    public static void Call()
     {
-        
+
         PhotonGameManager.CurrentPlayer.Call();
-        betValueSlider.value = 0;
-        UpdatePlayerDisplay();
+        instance.betValueSlider.value = 0;
+        instance.UpdatePlayerDisplay();
     }
 
-    public void Raise()
+    public static void Raise()
     {
         PhotonGameManager.CurrentPlayer.Raise();
-        betValueSlider.value = 0;
-        UpdatePlayerDisplay();
+        instance.betValueSlider.value = 0;
+        instance.UpdatePlayerDisplay();
     }
 
-    public void Check()
+    public static void Check()
     {
         PhotonGameManager.CurrentPlayer.Check();
-        betValueSlider.value = 0;
-        UpdatePlayerDisplay();
+        instance.betValueSlider.value = 0;
+        instance.UpdatePlayerDisplay();
     }
 
-    public void Fold()
+    public static void Fold()
     {
         PhotonGameManager.CurrentPlayer.Fold();
-        betValueSlider.value = 0;
-        UpdatePlayerDisplay();
+        instance.betValueSlider.value = 0;
+        instance.UpdatePlayerDisplay();
     }
     #endregion
 
+    /* Disabled Code
+     * void Update()
+    {
+      if(betValueSlider.value != )
+       {
+            UpdateBet();
+        }
+    }
+   void SetupUIListeners()
+   {
+       PhotonGameManager.OnDealingCards += UpdatePlayerDisplay;
+       Dealer.OnInterfaceUpdate += UpdateGameInterface;
+       Dealer.OnInterfaceUpdate += UpdatePlayerDisplay;
+       betValueSlider.onValueChanged.AddListener(delegate
+       {
+           int sliderMinimum = Dealer.MinimumBet;
+           int sliderMaximum = PhotonGameManager.CurrentPlayer.money;
+           int betValue = (int)(betValueSlider.value * sliderMaximum);
+           Debug.Log("Player's Bet: " + betValue);
 
+           if (betValue >= Dealer.MinimumBet)
+           {
+               while (betValue % Dealer.MinimumBet != 0)
+                   betValue--;
+           }
+           else
+           {
+               betValue = Dealer.MinimumBet;
+           }
+           PhotonGameManager.CurrentPlayer.AmountToBet = betValue;
+           betValueField.text = "" + betValue;
+       });
+       raiseBet.onClick.AddListener(delegate
+       {
+           PhotonGameManager.CurrentPlayer.Raise();
+           betValueSlider.value = 0;
+       });
+       callBet.onClick.AddListener(delegate
+       {
+           PhotonGameManager.CurrentPlayer.Call();
+           betValueSlider.value = 0;
+       });
+       check.onClick.AddListener(delegate
+       {
+           PhotonGameManager.CurrentPlayer.Check();
+           betValueSlider.value = 0;
+       });
+       fold.onClick.AddListener(delegate
+       {
+           PhotonGameManager.CurrentPlayer.Fold();
+           betValueSlider.value = 0;
+       });
+       PhotonGameManager.OnDealingCards += UpdatePlayerDisplay;
+   }
+   */
 }

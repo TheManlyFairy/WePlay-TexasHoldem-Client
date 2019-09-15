@@ -7,6 +7,7 @@ public class TouchInput : MonoBehaviour
     [SerializeField] float maxTimeBetweenTaps = 0.2f;
     [SerializeField] LayerMask layerMask;
 
+    UIManager uiManager;
     float timeCounter;
     float tapTime;
     int tapCount;
@@ -48,7 +49,7 @@ public class TouchInput : MonoBehaviour
                         if (tapCount == 2)
                         {
                             if (timeCounter <= maxTimeBetweenTaps)
-                                Debug.Log("Double Tap");
+                                UIManager.Check();
 
                             tapCount = 0;
                             timeCounter = 0;
@@ -66,6 +67,7 @@ public class TouchInput : MonoBehaviour
             {
                 tapCount = 0;
                 timeCounter = 0;
+                
             }
 
         }
@@ -86,7 +88,7 @@ public class TouchInput : MonoBehaviour
     void ReleaseHeldDraggable()
     {
         if (foldActionArea.Contains(Input.GetTouch(0).position))
-            Debug.Log("Folded");
+            UIManager.Fold();
         rectTransform.position = rectStartPos;
         rectTransform = null;
     }
