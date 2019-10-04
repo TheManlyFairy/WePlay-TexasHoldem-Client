@@ -88,7 +88,7 @@ public class UIManager : MonoBehaviour
     }
 
     #region Buttons
-    public static void Call()
+    public void Call()
     {
 
         PhotonGameManager.CurrentPlayer.Call();
@@ -96,21 +96,21 @@ public class UIManager : MonoBehaviour
         instance.UpdatePlayerDisplay();
     }
 
-    public static void Raise()
+    public void Raise()
     {
         PhotonGameManager.CurrentPlayer.Raise();
         instance.betValueSlider.value = 0;
         instance.UpdatePlayerDisplay();
     }
 
-    public static void Check()
+    public void Check()
     {
         PhotonGameManager.CurrentPlayer.Check();
         instance.betValueSlider.value = 0;
         instance.UpdatePlayerDisplay();
     }
 
-    public static void Fold()
+    public void Fold()
     {
         PhotonGameManager.CurrentPlayer.Fold();
         instance.betValueSlider.value = 0;

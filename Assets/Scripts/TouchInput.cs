@@ -49,7 +49,7 @@ public class TouchInput : MonoBehaviour
                         if (tapCount == 2)
                         {
                             if (timeCounter <= maxTimeBetweenTaps)
-                                UIManager.Check();
+                                UIManager.instance.Check();
 
                             tapCount = 0;
                             timeCounter = 0;
@@ -88,7 +88,7 @@ public class TouchInput : MonoBehaviour
     void ReleaseHeldDraggable()
     {
         if (foldActionArea.Contains(Input.GetTouch(0).position))
-            UIManager.Fold();
+            UIManager.instance.Fold();
         rectTransform.position = rectStartPos;
         rectTransform = null;
     }
