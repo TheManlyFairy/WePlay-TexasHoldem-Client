@@ -42,6 +42,8 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         if(photonView.IsMine)
         PhotonGameManager.CurrentPlayer = this;
 
+        this.name = PhotonNetwork.NickName;
+
         SendViewIdToServer();
     }
     /*
@@ -183,7 +185,7 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (photonView.IsMine)
         {
-            object[] datas = new object[] { photonView.ViewID };
+            object[] datas = new object[] { photonView.ViewID,PhotonNetwork.NickName };
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions()
             {
                 Receivers = ReceiverGroup.MasterClient

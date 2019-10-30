@@ -281,6 +281,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &943254130 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7250054157095832062, guid: 259c2c0e6f899b74ebd27af8435fff8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6497485842392546428}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 575553740, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1226532764 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1226532764, guid: 259c2c0e6f899b74ebd27af8435fff8c,
@@ -561,6 +573,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 413793812}
+    - target: {fileID: 7250054157095832062, guid: 259c2c0e6f899b74ebd27af8435fff8c,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 413793812}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 259c2c0e6f899b74ebd27af8435fff8c, type: 3}
 --- !u!1001 &8809999704680781656
@@ -595,6 +612,16 @@ PrefabInstance:
       propertyPath: quickJoinButton
       value: 
       objectReference: {fileID: 324266280}
+    - target: {fileID: 8809999704539703628, guid: 8b255766a30ed0641b7343f74a60d391,
+        type: 3}
+      propertyPath: roomNumber
+      value: 
+      objectReference: {fileID: 1226532764}
+    - target: {fileID: 8809999704539703628, guid: 8b255766a30ed0641b7343f74a60d391,
+        type: 3}
+      propertyPath: playerNameInput
+      value: 
+      objectReference: {fileID: 943254130}
     - target: {fileID: 8809999704539703629, guid: 8b255766a30ed0641b7343f74a60d391,
         type: 3}
       propertyPath: m_LocalPosition.x
