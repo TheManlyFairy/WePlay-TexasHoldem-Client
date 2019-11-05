@@ -12,7 +12,7 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     public List<Card> cards = new List<Card>();
     public TexasPokerHand hand;
-    public int money = 300;
+    public int money;
     public bool hasChosenAction = false;
     public PlayStatus playStatus;
 
@@ -202,8 +202,6 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         byte eventCode = photonEvent.Code;
         if (photonView.IsMine)
         {
-
-
             switch (eventCode)
             {
                 case (byte)EventCodes.PlayerCards:
@@ -236,11 +234,29 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
                         }
                     }
                     break;
-
+                case (byte)EventCodes.ClearPlayerCards:
+                    {
+                        cards.Clear();
+                        break;
+                    }
+                case (byte)EventCodes.GrantPlayerMoney:
+                    {
+                        if(photonView.IsMine)
+                        {
+                            object[] datas = (object[])photonEvent.CustomData;
+                            int[] winnerIds = (int[])datas[0];
+                            if(winnerIds.Contains(photonView.ViewID))
+                            {
+                                money += (int)datas[1] / winnerIds.Length;
+                                UIManager.instance.UpdatePlayerDisplay();
+                            }
+                        }
+                    }
+                    break;
             }
         }
 
-        //if (eventCode == (byte)EventCodes.PlayerCards && photonView.IsMine)
+        /*if (eventCode == (byte)EventCodes.PlayerCards && photonView.IsMine)
         //{
         //    object[] data = (object[])photonEvent.CustomData;
         //    CreateLocalPlayerCard(data);
@@ -257,7 +273,7 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         //{
         //    object[] data = (object[])photonEvent.CustomData;
         //    UIManager.instance.callBet.gameObject.SetActive((bool)data[0]);
-        //}
+        //}*/
     }
 
     void CreateLocalPlayerCard(object[] data)
@@ -268,9 +284,10 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         newCard.name = value + " of " + (CardSuit)data[2];
         newCard.value = value;
         newCard.suit = (CardSuit)data[2];
-        Dealer.dealerRef.SetCardSprite(newCard);
+        Dealer.SetCardSprite(newCard);
         cards.Add(newCard);
-        Debug.Log("Player " + this.photonView.ViewID + " Recieved card " + (CardValue)data[1] + " of " + (CardSuit)data[2]);
+        Debug.Log("Player " + name + " Recieved card " + (CardValue)data[1] + " of " + (CardSuit)data[2]);
         UIManager.instance.UpdatePlayerDisplay();
     }
+
 }

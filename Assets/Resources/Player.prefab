@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cards: []
-  money: 300
+  money: 0
   hasChosenAction: 0
   playStatus: 0
 --- !u!114 &5112895852781430677

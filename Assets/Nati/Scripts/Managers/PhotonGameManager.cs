@@ -31,7 +31,7 @@ public class PhotonGameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void StartGame()
+    /*public void StartGame()
     {
         CurrentPlayer = players[0];
 
@@ -45,7 +45,7 @@ public class PhotonGameManager : MonoBehaviourPunCallbacks
 
         // StartCoroutine(BettingRound());
       //  Dealer.StartBettingRound();
-    }
+    }*/
 
     //public static void DeclareWinner(List<Player> playersLeft)
     //{
@@ -95,7 +95,7 @@ public class PhotonGameManager : MonoBehaviourPunCallbacks
     //        }
     //    }
     //}
-    static List<Player> BreakTie(List<Player> tiedPlayers)
+    /*static List<Player> BreakTie(List<Player> tiedPlayers)
     {
         Debug.Log("Breaking tie with ranking cards");
         CardValue highestRank = tiedPlayers[0].hand.rankingCard.value;
@@ -116,8 +116,8 @@ public class PhotonGameManager : MonoBehaviourPunCallbacks
         }
 
         return winningPlayers;
-    }
-    static List<Player> BreakTieByKickers(List<Player> tiedPlayers)
+    }*/
+   /* static List<Player> BreakTieByKickers(List<Player> tiedPlayers)
     {
         Debug.Log("Breaking tie with kickers");
         CardValue highestKicker;
@@ -140,16 +140,16 @@ public class PhotonGameManager : MonoBehaviourPunCallbacks
             Debug.Log("Several players have equal kicker, attempting next possible kicker");
         }
         return winningPlayers;
-    }
+    }*/
 
-    IEnumerator BettingRound()
+    /*IEnumerator BettingRound()
     {
         List<Player> bettingPlayers = GameManager.players;
 
         yield return null;
 
 
-    }
+    }*/
 
     public void FindPlayers()
     {

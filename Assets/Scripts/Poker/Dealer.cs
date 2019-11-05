@@ -32,24 +32,63 @@ public class Dealer : MonoBehaviourPunCallbacks,IOnEventCallback
     public static int MinimumBet { get { return minimumBet; } }
 
     #endregion
-    //List<Player> players;
 
     private void OnEnable()
     {
         PhotonNetwork.AddCallbackTarget(this);
     }
-
     private void OnDisable()
     {
         PhotonNetwork.RemoveCallbackTarget(this);
     }
-
     private void Awake()
     {
         dealerRef = this;
     }
-    /*
-    public static void StartGame()
+
+    public static void SetCardSprite(Card card)
+    {
+        int indexer;
+        if (card.value == CardValue.Ace)
+        {
+            indexer = (int)card.suit * 13;
+            card.sprite = dealerRef.deckSprites[(int)card.suit * 13];
+        }
+
+        else
+        {
+            indexer = (int)card.suit * 13 + (int)card.value - 1;
+            card.sprite = dealerRef.deckSprites[(int)card.suit * 13 + (int)card.value - 1];
+        }
+
+    }
+    public static void AddBet(int bet)
+    {
+        pot += bet;
+
+        currentBetToMatch = currentBetToMatch > PhotonGameManager.CurrentPlayer.TotalBetThisRound ? currentBetToMatch : PhotonGameManager.CurrentPlayer.TotalBetThisRound;
+        Debug.Log("Highest bet is now: " + currentBetToMatch);
+
+        if (OnInterfaceUpdate != null)
+            OnInterfaceUpdate();
+    }
+    public void OnEvent(EventData photonEvent)
+    {
+        byte eventCode = photonEvent.Code;
+
+        if(eventCode == (byte)EventCodes.ClientDealer)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            minimumBet = (int)data[0];
+            currentBetToMatch = (int)data[1];
+            pot = (int)data[2];
+
+        }
+    }
+
+
+    /*Unused Methods
+     * public static void StartGame()
     {
         dealerRef.BuildDeck();
         dealerRef.ShuffleDeck();
@@ -135,43 +174,13 @@ public class Dealer : MonoBehaviourPunCallbacks,IOnEventCallback
             dealerRef.StartCoroutine(dealerRef.BettingRound());
         }
     }
-    */
-    public void SetCardSprite(Card card)
-    {
-        int indexer;
-        if (card.value == CardValue.Ace)
-        {
-            indexer = (int)card.suit * 13;
-            card.sprite = deckSprites[(int)card.suit * 13];
-        }
-
-        else
-        {
-            indexer = (int)card.suit * 13 + (int)card.value - 1;
-            card.sprite = deckSprites[(int)card.suit * 13 + (int)card.value - 1];
-        }
-
-    }
-
-
-    //public static Card Pull()
+     * public static Card Pull()
     //{
     //    Card drawnCard = deck[0];
     //    deck.RemoveAt(0);
     //    return drawnCard;
     //}
-    public static void AddBet(int bet)
-    {
-        pot += bet;
-
-        currentBetToMatch = currentBetToMatch > PhotonGameManager.CurrentPlayer.TotalBetThisRound ? currentBetToMatch : PhotonGameManager.CurrentPlayer.TotalBetThisRound;
-        Debug.Log("Highest bet is now: " + currentBetToMatch);
-
-        if (OnInterfaceUpdate != null)
-            OnInterfaceUpdate();
-    }
-
-    //public static void StartBettingRound()
+     * //public static void StartBettingRound()
     //{
     //    minimumBet = 5;
     //    currentBetToMatch = 0;
@@ -226,7 +235,22 @@ public class Dealer : MonoBehaviourPunCallbacks,IOnEventCallback
     //        //   CommunityPull();
     //    }
     //}
+     * public static void AddCard(Card card)
+    {
 
+    }
+    public static void RemoveCard(Card card)
+    {
+
+    }
+     * public static void AddCard(Card card)
+    {
+
+    }
+    public static void RemoveCard(Card card)
+    {
+
+    }
     void ParsePlayersStillBetting()
     {
         List<Player> playersStillInGame = new List<Player>();
@@ -261,45 +285,10 @@ public class Dealer : MonoBehaviourPunCallbacks,IOnEventCallback
             {
                 Debug.Log(p + "is still in the betting status");
                 return false;
-            }*/
+            }
 
-        }
+}
         return true;
     }
-
-    public void OnEvent(EventData photonEvent)
-    {
-        byte eventCode = photonEvent.Code;
-
-        if(eventCode == (byte)EventCodes.ClientDealer)
-        {
-            object[] data = (object[])photonEvent.CustomData;
-            minimumBet = (int)data[0];
-            currentBetToMatch = (int)data[1];
-            pot = (int)data[2];
-
-        }
-    }
-
-
-    /*Unused Methods
-     * public static void AddCard(Card card)
-    {
-
-    }
-    public static void RemoveCard(Card card)
-    {
-
-    }*/
-
-
-    /*Unused Methods
-     * public static void AddCard(Card card)
-    {
-
-    }
-    public static void RemoveCard(Card card)
-    {
-
-    }*/
+    */
 }

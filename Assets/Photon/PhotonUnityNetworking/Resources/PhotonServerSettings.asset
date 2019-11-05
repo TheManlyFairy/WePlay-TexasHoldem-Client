@@ -34,5 +34,6 @@ MonoBehaviour:
   - RespawnSpaceship
   - ClickRpc
   - DestroyRpc
+  - GainMoney
   DisableAutoOpenWizard: 1
   ShowSettings: 1
