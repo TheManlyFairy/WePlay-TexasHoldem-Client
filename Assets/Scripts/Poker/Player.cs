@@ -93,8 +93,9 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
             }
             totalAmountBetThisRound += amountToBet;
             money -= amountToBet;
+            UIManager.instance.playerActionPanel.SetActive(false);
 
-            object[] data = new object[] { playStatus, amountToBet };
+            object[] data = new object[] { playStatus, amountToBet};
             RaiseEventOptions eventOptions = new RaiseEventOptions() { Receivers = ReceiverGroup.MasterClient };
             SendOptions sendOptions = new SendOptions { Reliability = false };
 
@@ -123,6 +124,7 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
             totalAmountBetThisRound += amountToBet;
             Dealer.AddBet(amountToBet);
             money -= amountToBet;
+            UIManager.instance.playerActionPanel.SetActive(false);
 
             object[] data = new object[] { playStatus, amountToBet };
             RaiseEventOptions eventOptions = new RaiseEventOptions() { Receivers = ReceiverGroup.MasterClient };
@@ -141,6 +143,7 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
             hasChosenAction = true;
             Debug.Log(name + " checked");
             playStatus = PlayStatus.Checked;
+            UIManager.instance.playerActionPanel.SetActive(false);
 
             object[] data = new object[] { playStatus };
             RaiseEventOptions eventOptions = new RaiseEventOptions() { Receivers = ReceiverGroup.MasterClient };
@@ -156,6 +159,7 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
             Debug.Log(name + " folded and is no longer in play");
             hasChosenAction = true;
             playStatus = PlayStatus.Folded;
+            UIManager.instance.playerActionPanel.SetActive(false);
 
             object[] data = new object[] { playStatus };
             RaiseEventOptions eventOptions = new RaiseEventOptions() { Receivers = ReceiverGroup.MasterClient };
@@ -218,7 +222,11 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
                         object[] data = (object[])photonEvent.CustomData;
                         if (photonView.IsMine)
                         {
-                            money += (int)data[0];
+                            if ((bool)data[1])
+                                money = (int)data[0];
+                            else
+                                money += (int)data[0];
+
                             UIManager.instance.UpdatePlayerDisplay();
                         }
                     }
@@ -229,8 +237,13 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
                         if (photonView.IsMine)
                         {
                             object[] data = (object[])photonEvent.CustomData;
-                            UIManager.instance.callBet.gameObject.SetActive((bool)data[0]);
-                            UIManager.instance.UpdatePlayerDisplay();
+                            if (photonView.ViewID == (int)data[1])
+                            {
+                                Debug.Log("Player: PhotonViewId - " + (int)data[1]);
+                                UIManager.instance.callBet.gameObject.SetActive((bool)data[0]);
+                                UIManager.instance.playerActionPanel.SetActive(true);
+                                UIManager.instance.UpdatePlayerDisplay();
+                            }
                         }
                     }
                     break;

@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public Button callBet;
     public Button check;
     public Button fold;
+    public GameObject playerActionPanel;
 
     public static UIManager instance;
 
@@ -23,6 +24,12 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
         betValueSlider.onValueChanged.AddListener(delegate { UpdateBet(); });
+        playerActionPanel.SetActive(false);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     public static void StartGame()

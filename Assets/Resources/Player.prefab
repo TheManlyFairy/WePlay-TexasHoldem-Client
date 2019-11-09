@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &545332713378180804
+--- !u!1 &1
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3568296113110503917}
-  - component: {fileID: 2735234346426230357}
-  - component: {fileID: 5112895852781430677}
+  - component: {fileID: 2}
+  - component: {fileID: 3}
+  - component: {fileID: 4}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -18,27 +18,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3568296113110503917
+--- !u!4 &2
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545332713378180804}
+  m_GameObject: {fileID: 1}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 256.4715, y: 156.76794, z: -50.3125}
+  m_LocalPosition: {x: 195.13239, y: 132.17004, z: -4.0344768}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2735234346426230357
+--- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545332713378180804}
+  m_GameObject: {fileID: 1}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69b821d95daa814448b31a19244737b8, type: 3}
@@ -48,13 +48,13 @@ MonoBehaviour:
   money: 0
   hasChosenAction: 0
   playStatus: 0
---- !u!114 &5112895852781430677
+--- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545332713378180804}
+  m_GameObject: {fileID: 1}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
