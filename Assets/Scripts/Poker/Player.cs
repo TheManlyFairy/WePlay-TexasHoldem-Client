@@ -39,8 +39,8 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         playStatus = PlayStatus.Betting;
         //DebugShowPlayerHand();
 
-        if(photonView.IsMine)
-        PhotonGameManager.CurrentPlayer = this;
+        if (photonView.IsMine)
+            PhotonGameManager.CurrentPlayer = this;
 
         this.name = PhotonNetwork.NickName;
 
@@ -65,87 +65,43 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         hasChosenAction = true;
     }
     */
-    //public void OpeningBet()
-    //{
-    //    money -= Dealer.MinimumBet;
-    //}
+
     #region Player Actions
     public void Raise()
     {
         if (photonView.IsMine)
         {
-            hasChosenAction = true;
-
-            if (amountToBet < Dealer.MinimumBet)
-                amountToBet = Dealer.HighestBetMade + Dealer.MinimumBet;
-            else
-                amountToBet += Dealer.HighestBetMade - totalAmountBetThisRound;
-
-            if (amountToBet == money)
-            {
-                playStatus = PlayStatus.AllIn;
-                Debug.Log(name + " IS GOING ALL IN WITH " + amountToBet + "!");
-            }
-            else
-            {
-                playStatus = PlayStatus.Checked;
-                Debug.Log(name + " raised the stakes by " + (amountToBet - Dealer.HighestBetMade - totalAmountBetThisRound));
-            }
-            totalAmountBetThisRound += amountToBet;
-            money -= amountToBet;
             UIManager.instance.playerActionPanel.SetActive(false);
-
-            object[] data = new object[] { playStatus, amountToBet};
+            object[] data = new object[] { amountToBet };
             RaiseEventOptions eventOptions = new RaiseEventOptions() { Receivers = ReceiverGroup.MasterClient };
             SendOptions sendOptions = new SendOptions { Reliability = false };
 
             PhotonNetwork.RaiseEvent((byte)EventCodes.PlayerRaise, data, eventOptions, sendOptions);
-
-            //Dealer.AddBet(amountToBet);
         }
 
     }
-
     public void Call()
     {
         if (photonView.IsMine)
         {
-            hasChosenAction = true;
-            if (amountToBet + money < Dealer.HighestBetMade)
-            {
-                amountToBet = money;
-                playStatus = PlayStatus.AllIn;
-            }
-            else
-            {
-                amountToBet = Dealer.HighestBetMade - TotalBetThisRound;
-                playStatus = PlayStatus.Checked;
-            }
-            totalAmountBetThisRound += amountToBet;
-            Dealer.AddBet(amountToBet);
-            money -= amountToBet;
             UIManager.instance.playerActionPanel.SetActive(false);
 
-            object[] data = new object[] { playStatus, amountToBet };
+            object[] data = new object[] { };
             RaiseEventOptions eventOptions = new RaiseEventOptions() { Receivers = ReceiverGroup.MasterClient };
             SendOptions sendOptions = new SendOptions { Reliability = false };
 
             PhotonNetwork.RaiseEvent((byte)EventCodes.PlayerCall, data, eventOptions, sendOptions);
-
-            //Debug.Log(name + " added " + amountToBet + " and called");
         }
     }
-    
     public void Check()
     {
         if (photonView.IsMine)
         {
             hasChosenAction = true;
             Debug.Log(name + " checked");
-            playStatus = PlayStatus.Checked;
             UIManager.instance.playerActionPanel.SetActive(false);
 
-            object[] data = new object[] { playStatus };
+            object[] data = new object[] { };
             RaiseEventOptions eventOptions = new RaiseEventOptions() { Receivers = ReceiverGroup.MasterClient };
             SendOptions sendOptions = new SendOptions { Reliability = false };
 
@@ -157,11 +113,9 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         if (photonView.IsMine)
         {
             Debug.Log(name + " folded and is no longer in play");
-            hasChosenAction = true;
-            playStatus = PlayStatus.Folded;
             UIManager.instance.playerActionPanel.SetActive(false);
 
-            object[] data = new object[] { playStatus };
+            object[] data = new object[] { };
             RaiseEventOptions eventOptions = new RaiseEventOptions() { Receivers = ReceiverGroup.MasterClient };
             SendOptions sendOptions = new SendOptions { Reliability = false };
 
@@ -181,15 +135,12 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
          foreach (Card card in hand.tieBreakerCards) { Debug.Log(card.name);  }*/
 
     }
-    //public void SetHandStrength()
-    //{
-    //    hand.GetHandStrength(cards);
-    //}
+
     void SendViewIdToServer()
     {
         if (photonView.IsMine)
         {
-            object[] datas = new object[] { photonView.ViewID,PhotonNetwork.NickName };
+            object[] datas = new object[] { photonView.ViewID, PhotonNetwork.NickName };
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions()
             {
                 Receivers = ReceiverGroup.MasterClient
@@ -217,21 +168,28 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
                     }
                     break;
 
-                case (byte)EventCodes.PlayerBet:
+                case (byte)EventCodes.UpdateAllPlayerMoney:
                     {
                         object[] data = (object[])photonEvent.CustomData;
                         if (photonView.IsMine)
                         {
-                            if ((bool)data[1])
-                                money = (int)data[0];
-                            else
-                                money += (int)data[0];
-
+                            money = (int)data[0];
+                            totalAmountBetThisRound = (int)data[1];
                             UIManager.instance.UpdatePlayerDisplay();
                         }
                     }
                     break;
-
+                case (byte)EventCodes.UpdateCurrentPlayerMoney:
+                    {
+                        object[] data = (object[])photonEvent.CustomData;
+                        int currentPlayerViewId = (int)data[0];
+                        if(photonView.IsMine && photonView.ViewID==currentPlayerViewId)
+                        {
+                            money = (int)data[1];
+                            totalAmountBetThisRound = (int)data[2];
+                        }
+                        break;
+                    }
                 case (byte)EventCodes.PlayerTurn:
                     {
                         if (photonView.IsMine)
@@ -241,7 +199,7 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
                             {
                                 Debug.Log("Player: PhotonViewId - " + (int)data[1]);
                                 UIManager.instance.callBet.gameObject.SetActive((bool)data[0]);
-                                UIManager.instance.playerActionPanel.SetActive(true);
+                                UIManager.instance.ShowPlayerInterface();
                                 UIManager.instance.UpdatePlayerDisplay();
                             }
                         }
@@ -252,13 +210,13 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
                         cards.Clear();
                         break;
                     }
-                case (byte)EventCodes.GrantPlayerMoney:
+                case (byte)EventCodes.GrantWinnerMoney:
                     {
-                        if(photonView.IsMine)
+                        if (photonView.IsMine)
                         {
                             object[] datas = (object[])photonEvent.CustomData;
                             int[] winnerIds = (int[])datas[0];
-                            if(winnerIds.Contains(photonView.ViewID))
+                            if (winnerIds.Contains(photonView.ViewID))
                             {
                                 money += (int)datas[1] / winnerIds.Length;
                                 UIManager.instance.UpdatePlayerDisplay();
@@ -275,7 +233,7 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         //    CreateLocalPlayerCard(data);
         //}
 
-        //if(eventCode == (byte)EventCodes.PlayerBet)
+        //if(eventCode == (byte)EventCodesUpdateAllPlayerMoney)
         //{
         //    object[] data = (object[])photonEvent.CustomData;
         //    money += (int)data[0];
