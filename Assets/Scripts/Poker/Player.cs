@@ -165,6 +165,9 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
                         Debug.Log("ViewId from DEALER SERVER: " + (int)data[0]);
                         if (photonView.ViewID == (int)data[0])
                             CreateLocalPlayerCard(data);
+
+                        if (cards.Count == 2)
+                            AnimationManager.instance.PullPlayerCards();
                     }
                     break;
 
@@ -220,13 +223,14 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
                             {
                                 money += (int)datas[1] / winnerIds.Length;
                                 UIManager.instance.UpdatePlayerDisplay();
+                                AudioManager.PlayVictory();
                             }
                         }
                     }
                     break;
             }
         }
-
+        
         /*if (eventCode == (byte)EventCodes.PlayerCards && photonView.IsMine)
         //{
         //    object[] data = (object[])photonEvent.CustomData;
