@@ -21,7 +21,7 @@ public class QuickStartRommController : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("Joined Room " + PhotonNetwork.CurrentRoom.Name);
+        QuickStartLobbyController.instance.DebugText = "Joined Room " + PhotonNetwork.CurrentRoom.Name;
         StartGame();
     }
 
@@ -29,8 +29,8 @@ public class QuickStartRommController : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            
-            Debug.Log("Startiong Game");
+
+            QuickStartLobbyController.instance.DebugText = "Startiong Game";
             PhotonNetwork.LoadLevel(multiplayerSceneIndex);
         }
     }

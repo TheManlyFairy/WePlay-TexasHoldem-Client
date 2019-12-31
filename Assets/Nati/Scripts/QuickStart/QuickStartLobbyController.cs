@@ -13,7 +13,19 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
     InputField roomNumber;
     [SerializeField]
     InputField playerNameInput;
+    [SerializeField]
+    Text debugText;
 
+    public static QuickStartLobbyController instance;
+    public string DebugText { set { debugText.text = value; } }
+
+    private void Awake()
+    {
+        if(instance == null)
+        instance = this;
+
+        DebugText = "";
+    }
 
     public override void OnConnectedToMaster()
     {
@@ -54,7 +66,7 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log("Faild to join room: " + "Room " + roomNumber.text);
+        DebugText = "Faild to join room: " + "Room " + roomNumber.text;
         quickJoinButton.SetActive(true);
     }
 

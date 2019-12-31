@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
         instance = this;
         raiseBetSlider.onValueChanged.AddListener(delegate { UpdateBet(); });
         playerActionPanel.SetActive(false);
+        playerName.text = PlayerPrefs.GetString("NickName");
     }
 
     public void Quit()
@@ -45,14 +46,14 @@ public class UIManager : MonoBehaviour
     }
     void UpdateGameInterface()
     {
-        playerMoney.text = "Cash: " + PhotonGameManager.CurrentPlayer.money;
+        playerMoney.text = string.Format("Cash: {0:n0}$", PhotonGameManager.CurrentPlayer.money);
         //  currentPot.text = "Total Cash Prize: " + Dealer.Pot;
     }
     public void UpdatePlayerDisplay()
     {
         playerHandDisplay.SetupPlayerHand(PhotonGameManager.CurrentPlayer);
         playerName.text = PhotonGameManager.CurrentPlayer.name;
-        playerMoney.text = "Cash: " + PhotonGameManager.CurrentPlayer.money;
+        playerMoney.text = string.Format("Cash: {0:n0}$", PhotonGameManager.CurrentPlayer.money);
 
         if (PhotonGameManager.CurrentPlayer.TotalBetThisRound < Dealer.HighestBetMade)
         {
@@ -65,7 +66,7 @@ public class UIManager : MonoBehaviour
             check.gameObject.SetActive(true);
         }
         playerHandDisplay.SetupPlayerHand(PhotonGameManager.CurrentPlayer);
-        playerName.text = PhotonGameManager.CurrentPlayer.name;
+       // playerName.text = PhotonGameManager.CurrentPlayer.name;
     }
     public void DebugShowPlayer(int index)
     {
@@ -85,7 +86,7 @@ public class UIManager : MonoBehaviour
         betValue -= (betValue % Dealer.MinimumBet);
 
         PhotonGameManager.CurrentPlayer.AmountToBet = betValue;
-        playerCurrentBet.text = betValue + " $";
+        playerCurrentBet.text = string.Format("{0:n0}$",betValue);
         //betValueField.text = "" + betValue;
     }
 

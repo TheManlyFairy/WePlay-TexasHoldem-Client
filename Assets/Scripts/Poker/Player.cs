@@ -228,6 +228,17 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
                         }
                     }
                     break;
+                case (byte)EventCodes.ServerDisconnected:
+                    {
+                        if (photonView.IsMine)
+                        {
+                            Debug.Log("Disconnected from server event");
+                            object[] datas = (object[])photonEvent.CustomData;
+                            PhotonNetwork.LeaveRoom();
+                            PhotonNetwork.LoadLevel(0);
+                        }
+                    }
+                    break;
             }
         }
         
