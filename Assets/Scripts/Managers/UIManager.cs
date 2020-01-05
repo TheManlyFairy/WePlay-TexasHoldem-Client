@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         instance = this;
-        raiseBetSlider.onValueChanged.AddListener(delegate { UpdateBet(); });
+        raiseBetSlider.onValueChanged.AddListener(delegate { UpdateRaiseSlider(); });
         playerActionPanel.SetActive(false);
         playerName.text = PlayerPrefs.GetString("NickName");
     }
@@ -78,7 +78,7 @@ public class UIManager : MonoBehaviour
         playerName.text = PhotonGameManager.players[index].name;
     }
 
-    void UpdateBet()
+    void UpdateRaiseSlider()
     {
         int sliderMinimum = Dealer.HighestBetMade - PhotonGameManager.CurrentPlayer.TotalBetThisRound + Dealer.MinimumBet;
         int sliderMaximum = PhotonGameManager.CurrentPlayer.money;
@@ -90,36 +90,7 @@ public class UIManager : MonoBehaviour
         //betValueField.text = "" + betValue;
     }
 
-    #region Buttons
-    public void Raise()
-    {
-        PhotonGameManager.CurrentPlayer.Raise();
-        instance.raiseBetSlider.value = 0;
-        instance.UpdatePlayerDisplay();
-    }
-
-    public void Call()
-    {
-
-        PhotonGameManager.CurrentPlayer.Call();
-        instance.raiseBetSlider.value = 0;
-        instance.UpdatePlayerDisplay();
-    }
-
-    public void Check()
-    {
-        PhotonGameManager.CurrentPlayer.Check();
-        instance.raiseBetSlider.value = 0;
-        instance.UpdatePlayerDisplay();
-    }
-
-    public void Fold()
-    {
-        PhotonGameManager.CurrentPlayer.Fold();
-        instance.raiseBetSlider.value = 0;
-        instance.UpdatePlayerDisplay();
-    }
-    #endregion
+    
 
     /* Disabled Code
      * void Update()

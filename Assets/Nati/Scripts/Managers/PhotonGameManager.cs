@@ -38,6 +38,38 @@ public class PhotonGameManager : MonoBehaviourPunCallbacks
         CurrentPlayer = players[0];
     }
 
-    
-
+    #region PlayerActions
+    public void PlayerRaise()
+    {
+        CurrentPlayer.Raise();
+    }
+    public void PlayerRaiseAll()
+    {
+        CurrentPlayer.RaiseAllIn();
+    }
+    public void PlayerRaiseHalf()
+    {
+        CurrentPlayer.RaiseHalf();
+    }
+    public void PlayerRaiseQuarter()
+    {
+        CurrentPlayer.RaiseQuarter();
+    }
+    public void PlayerRaiseThreeQuarters()
+    {
+        CurrentPlayer.RaiseThreeQuarters();
+    }
+    public void PlayerCall()
+    {
+        CurrentPlayer.Call();
+    }
+    public void PlayerCheck()
+    {
+        CurrentPlayer.Check();
+    }
+    public void PlayerFold()
+    {
+        CurrentPlayer.Fold();
+        #endregion
+    }
 }
