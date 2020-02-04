@@ -42,6 +42,8 @@ public class UIManager : MonoBehaviour
     public void ShowPlayerInterface()
     {
         playerActionPanel.SetActive(true);
+        raiseBetSlider.value = 0;
+        UpdateRaiseSlider();
         playerCurrentBet.text = Dealer.HighestBetMade - PhotonGameManager.CurrentPlayer.TotalBetThisRound + Dealer.MinimumBet + " $";
     }
     void UpdateGameInterface()
