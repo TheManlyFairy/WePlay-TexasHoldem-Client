@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SocialPlatforms;
+
 public class UIManager : MonoBehaviour
 {
     public Text playerName;
@@ -25,7 +27,8 @@ public class UIManager : MonoBehaviour
         instance = this;
         raiseBetSlider.onValueChanged.AddListener(delegate { UpdateRaiseSlider(); });
         playerActionPanel.SetActive(false);
-        playerName.text = PlayerPrefs.GetString("NickName");
+        playerName.text = Photon.Pun.PhotonNetwork.NickName;
+        
     }
 
     public void Quit()

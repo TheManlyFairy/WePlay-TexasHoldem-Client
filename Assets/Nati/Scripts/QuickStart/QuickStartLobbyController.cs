@@ -6,13 +6,17 @@ using UnityEngine.UI;
 public class QuickStartLobbyController : MonoBehaviourPunCallbacks
 {
     [SerializeField]
+    GameObject loginOptionsButtonGroup;
+    [SerializeField]
+    GameObject quickJoinButtonsGroup;
+    [SerializeField]
     GameObject quickJoinButton;
     [SerializeField]
     GameObject quickCancelButton;
     [SerializeField]
-    InputField roomNumber;
-    [SerializeField]
     InputField playerNameInput;
+    [SerializeField]
+    InputField roomNumberInput;
     [SerializeField]
     Text debugText;
 
@@ -61,12 +65,12 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
     {
         quickJoinButton.SetActive(false);
         quickCancelButton.SetActive(true);
-        PhotonNetwork.JoinRoom("Room " + roomNumber.text);
+        PhotonNetwork.JoinRoom("Room " + roomNumberInput.text);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        DebugText = "Faild to join room: " + "Room " + roomNumber.text;
+        DebugText = "Faild to join room: " + "Room " + roomNumberInput.text;
         quickJoinButton.SetActive(true);
     }
 
@@ -77,4 +81,10 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
+    public void SetupGoogleHUD()
+    {
+        loginOptionsButtonGroup.SetActive(false);
+        roomNumberInput.gameObject.SetActive(true);
+        quickJoinButtonsGroup.SetActive(true);
+    }
 }
