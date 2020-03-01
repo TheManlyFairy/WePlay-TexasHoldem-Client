@@ -541,12 +541,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5535c6b908fb6c4b8c2ff725c78b2e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoginButtons: {fileID: 0}
-  quickJoinButtonsGroup: {fileID: 0}
+  loginOptionsButtonGroup: {fileID: 1619280394}
+  quickJoinButtonsGroup: {fileID: 1219427693}
   quickJoinButton: {fileID: 324266280}
   quickCancelButton: {fileID: 1901211162}
-  roomNumber: {fileID: 6497485841470102496}
   playerNameInput: {fileID: 4519055622257603970}
+  roomNumberInput: {fileID: 6497485841470102496}
   debugText: {fileID: 6497485842624469698}
 --- !u!4 &413793813
 Transform:
@@ -612,7 +612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1306,6 +1306,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1601904395}
+        m_MethodName: GuestLogin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1421728238
@@ -1533,6 +1544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f5453b9a9cc9fa4c81a363b8fe18510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loginMethod: 0
   lobbyController: {fileID: 413793812}
   debugText: {fileID: 6497485842624469698}
 --- !u!1 &1619280394

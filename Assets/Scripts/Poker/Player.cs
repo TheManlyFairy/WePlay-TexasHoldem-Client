@@ -183,7 +183,7 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if (photonView.IsMine)
         {
-            object[] datas = new object[] { photonView.ViewID, PhotonNetwork.NickName };
+            object[] datas = new object[] { photonView.ViewID, PhotonNetwork.NickName, UIManager.instance.playerIcon.sprite };
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions()
             {
                 Receivers = ReceiverGroup.MasterClient

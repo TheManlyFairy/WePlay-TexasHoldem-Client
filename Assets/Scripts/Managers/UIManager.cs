@@ -7,6 +7,7 @@ using UnityEngine.SocialPlatforms;
 public class UIManager : MonoBehaviour
 {
     public Text playerName;
+    public Image playerIcon;
     public PlayerHandDisplay playerHandDisplay;
     // public CommunityHandDisplay communityHandDisplay;
     public Text playerMoney;
@@ -22,20 +23,24 @@ public class UIManager : MonoBehaviour
 
     public static UIManager instance;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
+        LoginManager loginManager = FindObjectOfType<LoginManager>();
+        if (loginManager && loginManager.loginMethod != LoginManager.LoginMethod.Guest)
+            StartCoroutine(GenerateProfilePicture(loginManager));
+    }
+    private void Start()
+    {
         raiseBetSlider.onValueChanged.AddListener(delegate { UpdateRaiseSlider(); });
         playerActionPanel.SetActive(false);
         playerName.text = Photon.Pun.PhotonNetwork.NickName;
-        
     }
 
     public void Quit()
     {
         Application.Quit();
     }
-
     public static void StartGame()
     {
         //instance.SetupUIListeners();
@@ -48,11 +53,6 @@ public class UIManager : MonoBehaviour
         raiseBetSlider.value = 0;
         UpdateRaiseSlider();
         playerCurrentBet.text = Dealer.HighestBetMade - PhotonGameManager.CurrentPlayer.TotalBetThisRound + Dealer.MinimumBet + " $";
-    }
-    void UpdateGameInterface()
-    {
-        playerMoney.text = string.Format("Cash: {0:n0}$", PhotonGameManager.CurrentPlayer.money);
-        //  currentPot.text = "Total Cash Prize: " + Dealer.Pot;
     }
     public void UpdatePlayerDisplay()
     {
@@ -71,7 +71,7 @@ public class UIManager : MonoBehaviour
             check.gameObject.SetActive(true);
         }
         playerHandDisplay.SetupPlayerHand(PhotonGameManager.CurrentPlayer);
-       // playerName.text = PhotonGameManager.CurrentPlayer.name;
+        // playerName.text = PhotonGameManager.CurrentPlayer.name;
     }
     public void DebugShowPlayer(int index)
     {
@@ -82,7 +82,6 @@ public class UIManager : MonoBehaviour
         playerHandDisplay.SetupPlayerHand(PhotonGameManager.players[index]);
         playerName.text = PhotonGameManager.players[index].name;
     }
-
     void UpdateRaiseSlider()
     {
         int sliderMinimum = Dealer.HighestBetMade - PhotonGameManager.CurrentPlayer.TotalBetThisRound + Dealer.MinimumBet;
@@ -91,11 +90,26 @@ public class UIManager : MonoBehaviour
         betValue -= (betValue % Dealer.MinimumBet);
 
         PhotonGameManager.CurrentPlayer.AmountToBet = betValue;
-        playerCurrentBet.text = string.Format("{0:n0}$",betValue);
+        playerCurrentBet.text = string.Format("{0:n0}$", betValue);
         //betValueField.text = "" + betValue;
     }
+    void UpdateGameInterface()
+    {
+        playerMoney.text = string.Format("Cash: {0:n0}$", PhotonGameManager.CurrentPlayer.money);
+        //  currentPot.text = "Total Cash Prize: " + Dealer.Pot;
+    }
 
-    
+    IEnumerator GenerateProfilePicture(LoginManager manager)
+    {
+        Texture2D tex;
+        while (Social.Active.localUser.image == null)
+        {
+            yield return null;
+        }
+        tex = Social.Active.localUser.image;
+        playerIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
+    }
+
 
     /* Disabled Code
      * void Update()

@@ -2815,6 +2815,11 @@ PrefabInstance:
       propertyPath: raiseBetSlider
       value: 
       objectReference: {fileID: 505383020}
+    - target: {fileID: 5415767230723732862, guid: 62ee389ecde098c4cb9ff011ae7266c7,
+        type: 3}
+      propertyPath: playerIcon
+      value: 
+      objectReference: {fileID: 920797695}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62ee389ecde098c4cb9ff011ae7266c7, type: 3}
 --- !u!114 &741079510 stripped
@@ -3644,7 +3649,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a6acd2e6581045f47804c76665c20bbf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: de4f3a72cbb81bc479e27d3cfcbb8cb6, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
