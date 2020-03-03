@@ -23,12 +23,15 @@ public class UIManager : MonoBehaviour
 
     public static UIManager instance;
 
+    Texture2D playerIconTexture;
     private void Awake()
     {
         instance = this;
         LoginManager loginManager = FindObjectOfType<LoginManager>();
         if (loginManager && loginManager.loginMethod != LoginManager.LoginMethod.Guest)
             StartCoroutine(GenerateProfilePicture(loginManager));
+        else
+            playerIconTexture = playerIcon.sprite.texture;
     }
     private void Start()
     {
@@ -101,15 +104,27 @@ public class UIManager : MonoBehaviour
 
     IEnumerator GenerateProfilePicture(LoginManager manager)
     {
-        Texture2D tex;
         while (Social.Active.localUser.image == null)
         {
             yield return null;
         }
-        tex = Social.Active.localUser.image;
-        playerIcon.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
+        playerIconTexture = Social.Active.localUser.image;
+        playerIcon.sprite = Sprite.Create(playerIconTexture, new Rect(0, 0, playerIconTexture.width, playerIconTexture.height), Vector2.zero);
     }
 
+    public Texture2D GetReadablePlayerIconTexture()
+    {
+        RenderTexture tmp = RenderTexture.GetTemporary(playerIconTexture.width, playerIconTexture.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
+        Graphics.Blit(playerIconTexture, tmp);
+        RenderTexture previous = RenderTexture.active;
+        RenderTexture.active = tmp;
+        Texture2D readableTexture = new Texture2D(playerIconTexture.width, playerIconTexture.height);
+        readableTexture.ReadPixels(new Rect(0, 0, tmp.width, tmp.height), 0, 0);
+        readableTexture.Apply();
+        RenderTexture.active = previous;
+        RenderTexture.ReleaseTemporary(tmp);
+        return readableTexture;
+    }
 
     /* Disabled Code
      * void Update()
