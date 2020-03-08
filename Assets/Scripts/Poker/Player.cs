@@ -27,13 +27,12 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         PhotonNetwork.AddCallbackTarget(this);
     }
-
     private void OnDisable()
     {
         PhotonNetwork.RemoveCallbackTarget(this);
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
         hand = new TexasPokerHand();
         playStatus = PlayStatus.Betting;
@@ -44,27 +43,12 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
 
         this.name = PhotonNetwork.NickName;
 
+        while (UIManager.instance.PlayerIconTexture == null)
+            yield return null;
+
         SendViewIdToServer();
     }
-    /*
-    public void Draw()
-    {
-        Card card = Dealer.Pull();
-        cards.Add(card);
-    }
-    public void Discard()
-    {
-        cards = cards.Where(card => !card.markedForDiscard).ToList();
-
-        while (cards.Count < 5)
-        {
-            Draw();
-        }
-
-        SetupHand();
-        hasChosenAction = true;
-    }
-    */
+   
 
     #region Player Actions
     public void Raise()
@@ -190,10 +174,8 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
                 Receivers = ReceiverGroup.MasterClient
             };
             SendOptions sendOptions = new SendOptions() { Reliability = false };
-
             PhotonNetwork.RaiseEvent((byte)EventCodes.PlayerViewId, datas, raiseEventOptions, sendOptions);
         }
-
     }
 
     public void OnEvent(EventData photonEvent)
@@ -321,4 +303,23 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         UIManager.instance.UpdatePlayerDisplay();
     }
 
+    /*
+   public void Draw()
+   {
+       Card card = Dealer.Pull();
+       cards.Add(card);
+   }
+   public void Discard()
+   {
+       cards = cards.Where(card => !card.markedForDiscard).ToList();
+
+       while (cards.Count < 5)
+       {
+           Draw();
+       }
+
+       SetupHand();
+       hasChosenAction = true;
+   }
+   */
 }

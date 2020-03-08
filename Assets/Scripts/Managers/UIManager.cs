@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     Texture2D playerIconTexture;
+    public Texture2D PlayerIconTexture { get { return playerIconTexture; } }
     private void Awake()
     {
         instance = this;
@@ -76,15 +77,7 @@ public class UIManager : MonoBehaviour
         playerHandDisplay.SetupPlayerHand(PhotonGameManager.CurrentPlayer);
         // playerName.text = PhotonGameManager.CurrentPlayer.name;
     }
-    public void DebugShowPlayer(int index)
-    {
-        playerMoney.text = "Cash: " + PhotonGameManager.players[index].money;
-        // currentPot.text = "Total Cash Prize: " + Dealer.Pot;
-        playerHandDisplay.SetupPlayerHand(PhotonGameManager.players[index]);
-        playerName.text = PhotonGameManager.players[index].name;
-        playerHandDisplay.SetupPlayerHand(PhotonGameManager.players[index]);
-        playerName.text = PhotonGameManager.players[index].name;
-    }
+    
     void UpdateRaiseSlider()
     {
         int sliderMinimum = Dealer.HighestBetMade - PhotonGameManager.CurrentPlayer.TotalBetThisRound + Dealer.MinimumBet;
@@ -127,6 +120,15 @@ public class UIManager : MonoBehaviour
     }
 
     /* Disabled Code
+     * public void DebugShowPlayer(int index)
+    {
+        playerMoney.text = "Cash: " + PhotonGameManager.players[index].money;
+        // currentPot.text = "Total Cash Prize: " + Dealer.Pot;
+        playerHandDisplay.SetupPlayerHand(PhotonGameManager.players[index]);
+        playerName.text = PhotonGameManager.players[index].name;
+        playerHandDisplay.SetupPlayerHand(PhotonGameManager.players[index]);
+        playerName.text = PhotonGameManager.players[index].name;
+    }
      * void Update()
     {
       if(betValueSlider.value != )
