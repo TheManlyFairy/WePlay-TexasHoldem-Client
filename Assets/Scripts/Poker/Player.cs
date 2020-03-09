@@ -163,6 +163,7 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
 
     }
 
+    #region Photon sent events
     void SendViewIdToServer()
     {
         if (photonView.IsMine)
@@ -178,6 +179,22 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         }
     }
 
+    public void SendDisconnectToServer()
+    {
+        if (photonView.IsMine)
+        {
+            object[] datas = new object[] { photonView.ViewID };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions()
+            {
+                Receivers = ReceiverGroup.MasterClient
+            };
+            SendOptions sendOptions = new SendOptions() { Reliability = false };
+            PhotonNetwork.RaiseEvent((byte)EventCodes.PlayerDisconnected, datas, raiseEventOptions, sendOptions);
+        }
+    }
+    #endregion
+
+    #region Photon recieved events
     public void OnEvent(EventData photonEvent)
     {
         byte eventCode = photonEvent.Code;
@@ -269,25 +286,8 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
             }
         }
 
-        /*if (eventCode == (byte)EventCodes.PlayerCards && photonView.IsMine)
-        //{
-        //    object[] data = (object[])photonEvent.CustomData;
-        //    CreateLocalPlayerCard(data);
-        //}
-
-        //if(eventCode == (byte)EventCodesUpdateAllPlayerMoney)
-        //{
-        //    object[] data = (object[])photonEvent.CustomData;
-        //    money += (int)data[0];
-        //    UIManager.instance.UpdatePlayerDisplay();
-        //}
-
-        //if(eventCode == (byte)EventCodes.PlayerTurn)
-        //{
-        //    object[] data = (object[])photonEvent.CustomData;
-        //    UIManager.instance.callBet.gameObject.SetActive((bool)data[0]);
-        //}*/
     }
+    #endregion
 
     void CreateLocalPlayerCard(object[] data)
     {
@@ -302,6 +302,8 @@ public class Player : MonoBehaviourPunCallbacks, IOnEventCallback
         Debug.Log("Player " + name + " Recieved card " + (CardValue)data[1] + " of " + (CardSuit)data[2]);
         UIManager.instance.UpdatePlayerDisplay();
     }
+
+    
 
     /*
    public void Draw()

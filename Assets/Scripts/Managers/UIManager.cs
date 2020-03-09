@@ -40,11 +40,18 @@ public class UIManager : MonoBehaviour
         playerActionPanel.SetActive(false);
         playerName.text = Photon.Pun.PhotonNetwork.NickName;
     }
-
-    public void Quit()
+    public void QuitGame()
     {
+        StartCoroutine("QuitGameCor");
+    }
+
+    IEnumerator QuitGameCor()
+    {
+        PhotonGameManager.CurrentPlayer.SendDisconnectToServer();
+        yield return new WaitForSeconds(2);
         Application.Quit();
     }
+
     public static void StartGame()
     {
         //instance.SetupUIListeners();
@@ -118,6 +125,8 @@ public class UIManager : MonoBehaviour
         RenderTexture.ReleaseTemporary(tmp);
         return readableTexture;
     }
+
+
 
     /* Disabled Code
      * public void DebugShowPlayer(int index)

@@ -38,6 +38,8 @@ public class PhotonGameManager : MonoBehaviourPunCallbacks
         CurrentPlayer = players[0];
     }
 
+
+
     #region PlayerActions
     public void PlayerRaise()
     {
