@@ -238,7 +238,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/user/Dropbox/GitHub/WePlay-TexasHoldem-Client/TexasHoldemClient.keystore
+  AndroidKeystoreName: C:/Users/User/Documents/Unity Projects/WePlay/WePlay-TexasHoldem-Client/Keystores/TexasHoldemClient.keystore
   AndroidKeyaliasName: weplay texas holdem client
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1
